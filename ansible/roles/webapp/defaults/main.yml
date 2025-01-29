@@ -1,0 +1,5 @@
+docker_compose_local_path: "../../../files/webapp/docker-compose.yml"
+docker_compose_environment_local_path: "../../../files/webapp/production.env"
+
+docker_compose_remote_path: "/home/{{ ansible_user }}/docker-compose.yml"
+docker_compose_environment_remote_path: "/home/{{ ansible_user }}/production.env"

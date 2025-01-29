@@ -1,0 +1,5 @@
+- name: Install Docker on All Hosts
+  hosts: docker_hosts
+  become: true
+  roles:
+    - docker

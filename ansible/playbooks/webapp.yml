@@ -1,0 +1,7 @@
+- name: Deploy webapp with docker-compose
+  hosts: webapp_hosts
+  become: true
+  roles:
+    - webapp
+  vars_files:
+    - ../github_token.yml
