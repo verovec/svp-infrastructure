@@ -1,0 +1,5 @@
+docker_compose_local_path: "../../../files/haproxy/docker-compose.yml"
+config_local_path: "../../../files/haproxy/haproxy.cfg"
+
+docker_compose_remote_path: "/home/{{ ansible_user }}/docker-compose.yml"
+config_remote_path: "/home/{{ ansible_user }}/haproxy.cfg"

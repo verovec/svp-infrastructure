@@ -1,0 +1,5 @@
+- name: Deploy haproxy with docker-compose
+  hosts: haproxy_hosts
+  become: true
+  roles:
+    - haproxy
