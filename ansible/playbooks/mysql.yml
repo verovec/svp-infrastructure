@@ -1,0 +1,5 @@
+- name: Deploy mysql with docker-compose
+  hosts: mysql_hosts
+  become: true
+  roles:
+    - mysql

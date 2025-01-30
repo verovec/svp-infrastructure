@@ -1,20 +1,20 @@
 version: '3.9'
 
 services:
-  webapp:
-    container_name: webapp
-    restart: always
-    image: ghcr.io/verovec/svp-application:latest
-    # volumes:
-    #   - .:/app
-    ports:
-      - "8000:80"
-    env_file:
-      - production.env
-    depends_on:
-      - mysql
-    networks:
-      - web-net
+  # webapp:
+  #   container_name: webapp
+  #   restart: always
+  #   image: ghcr.io/verovec/svp-application:latest
+  #   # volumes:
+  #   #   - .:/app
+  #   ports:
+  #     - "8000:80"
+  #   env_file:
+  #     - production.env
+  #   depends_on:
+  #     - mysql
+  #   networks:
+  #     - web-net
 
 #   web2:
 #     container_name: web2
@@ -36,21 +36,19 @@ services:
   mysql:
     container_name: mysql
     image: mysql:9.2
-    environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: database
-      MYSQL_USER: default_user
-      MYSQL_PASSWORD: default_password
+    env_file:
+      - production.env
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
-    networks:
-      - web-net
+    restart: unless-stopped
+    # networks:
+    #   - web-net
 
-# volumes:
-#   mysql_data:
+volumes:
+  mysql_data:
 
-networks:
-  web-net:
-    driver: bridge
+# networks:
+#   web-net:
+#     driver: bridge

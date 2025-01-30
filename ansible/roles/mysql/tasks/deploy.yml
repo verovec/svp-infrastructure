@@ -1,0 +1,31 @@
+- name: Creates directory
+  ansible.builtin.file:
+    path: /home/{{ ansible_user }}
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Copy Docker Compose File
+  copy:
+    src: "{{ docker_compose_local_path }}"
+    dest: "{{ docker_compose_remote_path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Copy Environment File
+  copy:
+    src: "{{ docker_compose_environment_local_path }}"
+    dest: "{{ docker_compose_environment_remote_path }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: '0644'
+
+- name: Pull Image and Start Services with Docker Compose
+  shell: |
+    cd /home/{{ ansible_user }}
+    docker-compose pull
+    docker-compose up -d
+  args:
+    executable: /bin/bash
