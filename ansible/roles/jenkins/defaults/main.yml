@@ -1,0 +1,7 @@
+dockerfile_local_path: "../../../files/jenkins/Dockerfile"
+docker_compose_local_path: "../../../files/jenkins/docker-compose.yml"
+plugins_local_path: "../../../files/jenkins/plugins.txt"
+
+dockerfile_remote_path: "/home/{{ ansible_user }}/Dockerfile"
+docker_compose_remote_path: "/home/{{ ansible_user }}/docker-compose.yml"
+plugins_remote_path: "/home/{{ ansible_user }}/plugins.txt"

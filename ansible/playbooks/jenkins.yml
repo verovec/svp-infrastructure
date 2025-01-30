@@ -1,0 +1,5 @@
+- name: Deploy jenkins with docker-compose
+  hosts: jenkins_hosts
+  become: true
+  roles:
+    - jenkins
