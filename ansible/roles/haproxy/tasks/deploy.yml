@@ -6,6 +6,11 @@
     group: "{{ ansible_user }}"
     mode: '0644'
 
+- name: Install Git
+  ansible.builtin.package:
+    name: git
+    state: present
+
 - name: Copy Docker Compose File
   copy:
     src: "{{ docker_compose_local_path }}"
