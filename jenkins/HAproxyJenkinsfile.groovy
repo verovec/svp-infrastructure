@@ -2,70 +2,42 @@ pipeline {
     agent any
 
     environment {
-        GITHUB_USERNAME = 'verovec'
-        GITHUB_TOKEN = credentials('github-token-id')
-        IMAGE_NAME = 'ghcr.io/verovec/svp-application'
-        NEW_TAG = 'latest'
-        COMPOSE_FILE = 'docker-compose.yml'
+        REPO_URL = 'git@github.com:verovec/svp-proxy.git'
+        REPOSITORY_DIR = '/home/root/svp-proxy'
+        HAPROXY_DIR = '/home/root'
+        REMOTE_USER = "root"
+        REMOTE_HOST = "10.89.155.33"
     }
 
     stages {
-        stage('SSH Connect & Prepare') {
-            steps {
-                sshagent(['remote-ssh-key-id']) {
-                    sh '''
-                    ssh -o StrictHostKeyChecking=no root@10.89.155.31 <<EOF
-                    echo "Connected to remote server"
-                    cd /home/root
-                    EOF
-                    '''
-                }
-            }
-        }
-
-        stage('Authenticate to GitHub Registry') {
-            steps {
-                sh '''
-                echo $GITHUB_TOKEN | docker login ghcr.io -u $GITHUB_USERNAME --password-stdin
-                '''
-            }
-        }
-
-        stage('Pull Docker Image') {
-            steps {
-                sh '''
-                docker pull $IMAGE_NAME:$NEW_TAG
-                '''
-            }
-        }
-
-        stage('Update Docker Compose File') {
+        stage('Deploy to Remote Server') {
             steps {
                 script {
-                    def composeFile = readFile("$COMPOSE_FILE")
-                    def updatedComposeFile = composeFile.replaceAll(/image:.*$/, "image: $IMAGE_NAME:$NEW_TAG")
-                    writeFile file: "$COMPOSE_FILE", text: updatedComposeFile
+                    sshCommand = """
+                        ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} << EOF
+                        if [ -d "${REPOSITORY_DIR}" ]; then
+                            cd ${REPOSITORY_DIR} && git pull origin main
+                        else
+                            git clone ${REPO_URL} ${REPOSITORY_DIR}
+                        fi
+                        cp ${REPOSITORY_DIR} ${HAPROXY_DIR}/haproxy.cfg
+                        cd ${HAPROXY_DIR}
+                        docker-compose down
+                        docker-compose up -d
+                        EOF
+                    """
+                    sh sshCommand
                 }
-            }
-        }
-
-        stage('Deploy with Docker Compose') {
-            steps {
-                sh '''
-                docker-compose pull
-                docker-compose up -d --no-deps --build
-                docker image prune -f
-                '''
             }
         }
     }
 
     post {
         success {
-            echo 'Deployment succeeded!'
+            echo "Deployment completed successfully!"
         }
         failure {
-            echo 'Deployment failed!'
+            echo "Deployment failed!"
         }
     }
 }
