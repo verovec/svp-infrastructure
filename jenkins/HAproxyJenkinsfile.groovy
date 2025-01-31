@@ -13,20 +13,19 @@ pipeline {
         stage('Deploy to Remote Server') {
             steps {
                 script {
-                    sshCommand = """
-                        ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} << EOF
-                        if [ -d "${REPOSITORY_DIR}" ]; then
-                            cd ${REPOSITORY_DIR} && git pull origin main
-                        else
-                            git clone ${REPO_URL} ${REPOSITORY_DIR}
-                        fi
-                        cp ${REPOSITORY_DIR} ${HAPROXY_DIR}/haproxy.cfg
-                        cd ${HAPROXY_DIR}
-                        docker-compose down
-                        docker-compose up -d
-                        EOF
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} '
+                    if [ -d "${REPOSITORY_DIR}" ]; then
+                        cd ${REPOSITORY_DIR} && git pull origin main
+                    else
+                        git clone ${REPO_URL} ${REPOSITORY_DIR}
+                    fi
+                    cp -f ${REPOSITORY_DIR}/haproxy.cfg ${HAPROXY_DIR}/haproxy.cfg
+                    cd ${HAPROXY_DIR}
+                    docker-compose down
+                    docker-compose up -d
+                    '
                     """
-                    sh sshCommand
                 }
             }
         }
