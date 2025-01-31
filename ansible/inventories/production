@@ -3,6 +3,7 @@ web1 ansible_host=10.89.155.31 ansible_user=root ansible_ssh_private_key_file=~/
 web2 ansible_host=10.89.155.32 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
 jenkins ansible_host=10.89.155.30 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
 haproxy ansible_host=10.89.155.33 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
+mysql ansible_host=10.89.155.34 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
 
 [webapp_hosts]
 web1 ansible_host=10.89.155.31 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
@@ -14,11 +15,12 @@ jenkins ansible_host=10.89.155.30 ansible_user=root ansible_ssh_private_key_file
 [haproxy_hosts]
 haproxy ansible_host=10.89.155.33 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
 
-; [mysql_hosts]
-; haproxy ansible_host=10.89.155.34 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
+[mysql_hosts]
+mysql ansible_host=10.89.155.34 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
 
 [all_hosts]
 web1 ansible_host=10.89.155.31 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
 web2 ansible_host=10.89.155.32 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
 jenkins ansible_host=10.89.155.30 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
 haproxy ansible_host=10.89.155.33 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
+mysql ansible_host=10.89.155.34 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
