@@ -27,6 +27,11 @@ First of all you need to update the inventory file and set correct values accord
 ansible-playbook -i inventories/production playbooks/docker.yml
 ```
 
+### Deploy Jenkins
+```bash
+ansible-playbook -i inventories/production playbooks/jenkins.yml
+```
+
 ### Deploy HAproxy
 ```bash
 ansible-playbook -i inventories/production playbooks/haproxy.yml
