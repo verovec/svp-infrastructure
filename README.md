@@ -5,7 +5,6 @@
 - [Architecture Overview](#architecture-overview)
 - [Prerequisites](#prerequisites)
 - [Deployment](#deployment)
-- [Networking](#networking)
 
 ## Architecture Overview
 ![Diagrams production](./documentation/schema.png)
